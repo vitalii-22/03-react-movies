@@ -14,7 +14,6 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
     }
 
     onSubmit(movieTitle);
-    console.log(movieTitle);
   };
 
   return (

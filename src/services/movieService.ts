@@ -8,7 +8,7 @@ const myToken = import.meta.env.VITE_TMDB_TOKEN;
 
 export const fetchCharacter = async (movieTitle: string) => {
   const response = await axios.get<MoviesHttpResponse>(
-    `https://api.themoviedb.org/3/search/collection?query=${movieTitle}`,
+    `https://api.themoviedb.org/3/search/movie?query=${movieTitle}`,
     {
       headers: {
         Authorization: `Bearer ${myToken}`,
