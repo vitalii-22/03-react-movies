@@ -7,23 +7,22 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import MovieModal from "../MovieModal/MovieModal";
 
 import type { Movie } from "../../types/movie";
-import { fetchCharacter } from "../../services/movieService";
 
 import toast, { Toaster } from "react-hot-toast";
+import { fetchMovies } from "../../services/movieService";
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [isMovieModalOpen, setIsModalOpen] = useState(false);
-  const [movie, setMovie] = useState<Movie | undefined>(undefined);
+  const [movie, setMovie] = useState<Movie | null>(null);
 
   const handleValue = async (data: string) => {
     try {
       setIsLoading(true);
       setIsError(false);
       setMovies([]);
-      const newMovies = await fetchCharacter(data);
+      const newMovies = await fetchMovies(data);
       console.log(newMovies);
 
       if (newMovies.length === 0) {
@@ -38,17 +37,12 @@ function App() {
     }
   };
 
-  const openMovieModal = () => setIsModalOpen(true);
-
   const closeMovieModal = () => {
-    setIsModalOpen(false);
-    setMovie(undefined);
+    setMovie(null);
   };
 
   const handleClickCard = (objectMovie: Movie) => {
     setMovie(objectMovie);
-
-    openMovieModal();
   };
 
   return (
@@ -60,9 +54,7 @@ function App() {
       {movies.length > 0 && (
         <MovieGrid onSelect={handleClickCard} movies={movies} />
       )}
-      {isMovieModalOpen && movie !== undefined && (
-        <MovieModal movie={movie} onClose={closeMovieModal} />
-      )}
+      {movie !== null && <MovieModal movie={movie} onClose={closeMovieModal} />}
     </>
   );
 }
